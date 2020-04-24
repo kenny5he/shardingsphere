@@ -25,7 +25,7 @@
     </parent>
     <groupId>org.apache.shardingsphere</groupId>
     <artifactId>shardingsphere-ui</artifactId>
-    <version>5.0.0-RC1-SNAPSHOT</version>
+    <version>4.1.0</version>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     
@@ -149,4 +149,8 @@
             </plugin>
         </plugins>
     </build>
+
+  <scm>
+    <tag>shardingsphere-ui-4.1.0</tag>
+  </scm>
 </project>
