@@ -45,7 +45,10 @@ import java.util.Map.Entry;
  * Adapter for {@code Connection}.
  */
 public abstract class AbstractConnectionAdapter extends AbstractUnsupportedOperationConnection {
-    
+    /**
+     * 缓存经过封装的ShardingConnection连接对象
+     * 如果我们对一个 AbstractConnectionAdapter 重复使用，那么这些 cachedConnections 也会一直被缓存，直到调用 close 方法
+     */
     @Getter
     private final Multimap<String, Connection> cachedConnections = LinkedHashMultimap.create();
     
@@ -89,24 +92,30 @@ public abstract class AbstractConnectionAdapter extends AbstractUnsupportedOpera
      * @throws SQLException SQL exception
      */
     public final List<Connection> getConnections(final ConnectionMode connectionMode, final String dataSourceName, final int connectionSize) throws SQLException {
+        // 获取DataSource
         DataSource dataSource = getDataSourceMap().get(dataSourceName);
         Preconditions.checkState(null != dataSource, "Missing the data source name: '%s'", dataSourceName);
         Collection<Connection> connections;
+        // 根据数据源从cachedConnections中获取connections
         synchronized (cachedConnections) {
             connections = cachedConnections.get(dataSourceName);
         }
         List<Connection> result;
+        // 如果connections多于想要的connectionSize，则只获取所需部分
         if (connections.size() >= connectionSize) {
             result = new ArrayList<>(connections).subList(0, connectionSize);
         } else if (!connections.isEmpty()) {
+            // 创建新的connections
             result = new ArrayList<>(connectionSize);
             result.addAll(connections);
             List<Connection> newConnections = createConnections(dataSourceName, connectionMode, dataSource, connectionSize - connections.size());
             result.addAll(newConnections);
+            // 将新创建的connections也放入缓存中进行管理
             synchronized (cachedConnections) {
                 cachedConnections.putAll(dataSourceName, newConnections);
             }
         } else {
+            // 如果缓存中没有对应dataSource的Connections，同样进行创建并放入缓存中
             result = new ArrayList<>(createConnections(dataSourceName, connectionMode, dataSource, connectionSize));
             synchronized (cachedConnections) {
                 cachedConnections.putAll(dataSourceName, result);
@@ -119,6 +128,7 @@ public abstract class AbstractConnectionAdapter extends AbstractUnsupportedOpera
     private List<Connection> createConnections(final String dataSourceName, final ConnectionMode connectionMode, final DataSource dataSource, final int connectionSize) throws SQLException {
         if (1 == connectionSize) {
             Connection connection = createConnection(dataSourceName, dataSource);
+
             replayMethodsInvocation(connection);
             return Collections.singletonList(connection);
         }
@@ -204,7 +214,9 @@ public abstract class AbstractConnectionAdapter extends AbstractUnsupportedOpera
     @Override
     public final void setReadOnly(final boolean readOnly) throws SQLException {
         this.readOnly = readOnly;
+        // 调用recordMethodInvocation方法记录方法调用的元数据
         recordMethodInvocation(Connection.class, "setReadOnly", new Class[]{boolean.class}, new Object[]{readOnly});
+        // 执行回调
         forceExecuteTemplate.execute(cachedConnections.values(), connection -> connection.setReadOnly(readOnly));
     }
     

@@ -29,15 +29,26 @@ import java.util.Properties;
 */
 @Getter
 public final class KeyGeneratorConfiguration extends TypeBasedSPIConfiguration {
-    
+    // 生成id对应数据库字段
     private final String column;
-    
+
+    /**
+     *
+     * @param type 通过type 控制key值的生成方式,SNOWFLAKE 雪花算法,UUID 随机生成
+     * @param column 字段
+     */
     public KeyGeneratorConfiguration(final String type, final String column) {
         super(type);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(column), "Column is required.");
         this.column = column;
     }
-    
+
+    /**
+     *
+     * @param type 通过type 控制key值的生成方式,SNOWFLAKE 雪花算法,UUID 随机生成
+     * @param column
+     * @param properties
+     */
     public KeyGeneratorConfiguration(final String type, final String column, final Properties properties) {
         super(type, properties);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(column), "Column is required.");

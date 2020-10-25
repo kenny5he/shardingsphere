@@ -23,6 +23,7 @@ import org.apache.shardingsphere.api.sharding.hint.HintShardingAlgorithm;
 
 /**
  * Hint sharding strategy configuration.
+ * 使用数据库的 Hint 机制实现强制路由，所以不需要分片列
  */
 @Getter
 public final class HintShardingStrategyConfiguration implements ShardingStrategyConfiguration {

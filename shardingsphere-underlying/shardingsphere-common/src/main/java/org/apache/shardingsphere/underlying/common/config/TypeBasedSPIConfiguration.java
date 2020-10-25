@@ -28,9 +28,14 @@ import java.util.Properties;
  */
 @Getter
 public abstract class TypeBasedSPIConfiguration {
-    
+    /**
+     *
+     */
     private final String type;
-    
+
+    /**
+     *
+     */
     private final Properties properties;
     
     public TypeBasedSPIConfiguration(final String type) {

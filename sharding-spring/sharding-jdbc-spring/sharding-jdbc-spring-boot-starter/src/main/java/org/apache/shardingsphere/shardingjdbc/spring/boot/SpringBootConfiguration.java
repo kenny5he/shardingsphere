@@ -65,6 +65,7 @@ import java.util.Map;
 
 /**
  * Spring boot starter configuration.
+ * Spring Boot 配置集成
  */
 @Configuration
 @ComponentScan("org.apache.shardingsphere.spring.boot.converter")
@@ -93,6 +94,7 @@ public class SpringBootConfiguration implements EnvironmentAware {
     
     /**
      * Get sharding data source bean.
+     * 获取分片的数据源(Datasource)
      *
      * @return data source bean
      * @throws SQLException SQL exception

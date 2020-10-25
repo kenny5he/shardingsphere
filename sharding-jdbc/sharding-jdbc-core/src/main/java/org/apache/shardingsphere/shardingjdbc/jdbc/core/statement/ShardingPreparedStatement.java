@@ -107,7 +107,13 @@ public final class ShardingPreparedStatement extends AbstractShardingPreparedSta
         preparedStatementExecutor = new PreparedStatementExecutor(resultSetType, resultSetConcurrency, resultSetHoldability, returnGeneratedKeys, connection);
         batchPreparedStatementExecutor = new BatchPreparedStatementExecutor(resultSetType, resultSetConcurrency, resultSetHoldability, returnGeneratedKeys, connection);
     }
-    
+
+    /**
+     * 重载 JDBC 中 PreparedStatement 的 executeQuery方法，获取ShardingSphere封装的ResultSet
+     *
+     * @return
+     * @throws SQLException
+     */
     @Override
     public ResultSet executeQuery() throws SQLException {
         ResultSet result;

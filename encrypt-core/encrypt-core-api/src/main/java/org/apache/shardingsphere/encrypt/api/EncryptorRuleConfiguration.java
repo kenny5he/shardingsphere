@@ -27,7 +27,12 @@ import java.util.Properties;
  */
 @Getter
 public final class EncryptorRuleConfiguration extends TypeBasedSPIConfiguration {
-    
+
+    /**
+     * 加密规则配置
+     * @param type 类型（例如MD5/AES加密器）
+     * @param properties 属性（例如AES加密器用到的Key值）
+     */
     public EncryptorRuleConfiguration(final String type, final Properties properties) {
         super(type, properties);
     }

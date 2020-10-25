@@ -39,6 +39,9 @@ import java.util.Properties;
 
 /**
  * YAML engine.
+ * YamlEngine 的作用是将各种形式的输入内容转换成一个 Yaml 对象，这些输入形式包括 File、字符串、byte[] 等。
+ * YamlEngine 包含了一批 unmarshal/marshal 方法来完成数据的转换。
+ *  以 File 输入为例，unmarshal 方法通过加载 FileInputStream 来完成 Yaml 对象的构建：
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class YamlEngine {

@@ -30,6 +30,7 @@ import java.util.Properties;
 
 /**
  * Master-slave data source factory.
+ * 主从分离 数据源工厂类
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MasterSlaveDataSourceFactory {

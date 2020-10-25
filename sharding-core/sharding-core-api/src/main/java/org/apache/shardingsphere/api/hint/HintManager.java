@@ -28,18 +28,48 @@ import java.util.Collections;
 
 /**
  * The manager that use hint to inject sharding key directly through {@code ThreadLocal}.
+ * 强制路由
+ *
+ *
+ *
+ *
+ * 类似MySQL中
+ * 通过强制索引进行查询
+ * SELECT * FROM TABLE1 FORCE INDEX (FIELD1)
+ * 通过 LINT语法强制某字段不走索引
+ * SELECT * FROM TABLE1 IGNORE INDEX (FIELD1, FIELD2)
+ *
+ *
+ * JDK1.7以前手动通过 try/catch/finally 中的 finally 语句来释放资源
+ * 使用 AutoCloseable 接口，在 try 语句结束的时候，不需要实现 finally 语句就会自动将这些资源关闭，JDK 会通过回调的方式，
+ * 调用 close 方法来做到这一点
+ *
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HintManager implements AutoCloseable {
-    
+    /**
+     * 基于ThreadLocal存储HintManager实例
+     */
     private static final ThreadLocal<HintManager> HINT_MANAGER_HOLDER = new ThreadLocal<>();
-    
+
+    /**
+     * 数据库分片值
+     */
     private final Multimap<String, Comparable<?>> databaseShardingValues = HashMultimap.create();
-    
+
+    /**
+     * 数据表分片值
+     */
     private final Multimap<String, Comparable<?>> tableShardingValues = HashMultimap.create();
-    
+
+    /**
+     * 是否只有数据库分片
+     */
     private boolean databaseShardingOnly;
-    
+
+    /**
+     * 是否只路由主库
+     */
     private boolean masterRouteOnly;
     
     /**

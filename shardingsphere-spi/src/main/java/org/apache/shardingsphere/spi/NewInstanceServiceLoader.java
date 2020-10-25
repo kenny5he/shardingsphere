@@ -38,6 +38,7 @@ public final class NewInstanceServiceLoader {
     
     /**
      * Register SPI service into map for new instance.
+     * 通过ServiceLoader获取新的SPI服务实例并注册到SERVICE_MAP中
      *
      * @param service service type
      * @param <T> type of service

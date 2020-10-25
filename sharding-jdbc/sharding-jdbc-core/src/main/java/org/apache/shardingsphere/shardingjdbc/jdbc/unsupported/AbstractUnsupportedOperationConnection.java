@@ -36,6 +36,8 @@ import java.util.concurrent.Executor;
 
 /**
  * Unsupported {@code Connection} methods.
+ * 目的: 明确哪些操作是 AbstractConnectionAdapter 及其子类 ShardingConnection 所不能支持的，属于职责分离的一种具体实现方法。
+ *
  */
 public abstract class AbstractUnsupportedOperationConnection extends WrapperAdapter implements Connection {
     

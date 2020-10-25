@@ -47,6 +47,7 @@ public abstract class WrapperAdapter implements Wrapper {
     }
     
     /**
+     * 记录方法调用
      * record method invocation.
      * 
      * @param targetClass target class
@@ -60,6 +61,7 @@ public abstract class WrapperAdapter implements Wrapper {
     }
     
     /**
+     * 重放方法调用
      * Replay methods invocation.
      * 
      * @param target target object

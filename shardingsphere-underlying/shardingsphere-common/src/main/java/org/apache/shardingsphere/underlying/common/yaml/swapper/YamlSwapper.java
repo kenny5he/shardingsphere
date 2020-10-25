@@ -28,6 +28,7 @@ import org.apache.shardingsphere.underlying.common.yaml.config.YamlConfiguration
 public interface YamlSwapper<Y extends YamlConfiguration, T> {
     
     /**
+     *  将 "对象数据" 转换为YAML类型数据
      * Swap to YAML configuration.
      *
      * @param data data to be swapped
@@ -36,6 +37,7 @@ public interface YamlSwapper<Y extends YamlConfiguration, T> {
     Y swap(T data);
     
     /**
+     * 将YAML类型数据转换为 "对象数据"
      * Swap from YAML configuration to object.
      *
      * @param yamlConfiguration YAML configuration

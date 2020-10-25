@@ -36,6 +36,9 @@ import java.util.Properties;
 
 /**
  * Sharding data source.
+ *
+ * Sharding Sphere 基于JDBC标准实现 DataSource接口，以及扩展封装Wrapper接口进行ShardingSphere的扩展适配
+ *
  */
 @Getter
 public class ShardingDataSource extends AbstractDataSourceAdapter {
@@ -59,7 +62,11 @@ public class ShardingDataSource extends AbstractDataSourceAdapter {
             Preconditions.checkArgument(!(each instanceof MasterSlaveDataSource), "Initialized data sources can not be master-slave data sources.");
         }
     }
-    
+
+    /**
+     * 重载 Datasource 获取连接方法，将获取的标准Connection 替换为 自定义的 ShardingConnection
+     * @return 扩展封装的JDBC Connection接口的 ShardingSphere连接
+     */
     @Override
     public final ShardingConnection getConnection() {
         return new ShardingConnection(getDataSourceMap(), runtimeContext, TransactionTypeHolder.get());

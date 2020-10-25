@@ -77,7 +77,13 @@ public final class ShardingConnection extends AbstractConnectionAdapter {
     public DatabaseMetaData getMetaData() {
         return new ShardingDatabaseMetaData(this);
     }
-    
+
+    /**
+     * 重载 Connection方法，返回被封装的 ShardingSphere封装的 ShardingPrepareStatement
+     * @param sql 被执行的SQL
+     * @return 经过ShardingSphere 预编译的 Statement
+     * @throws SQLException
+     */
     @Override
     public PreparedStatement prepareStatement(final String sql) throws SQLException {
         return new ShardingPreparedStatement(this, sql);
